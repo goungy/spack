@@ -43,10 +43,13 @@ def setup_parser(subparser):
 
 
 def spack_transitive_include_path():
-    return ';'.join(
-        os.path.join(dep, 'include')
-        for dep in os.environ['SPACK_DEPENDENCIES'].split(os.pathsep)
-    )
+    if 'SPACK_DEPENDENCIES' in os.environ:
+        return ';'.join(
+            os.path.join(dep, 'include')
+            for dep in os.environ['SPACK_DEPENDENCIES'].split(os.pathsep)
+        )
+    else:
+        return ''
 
 
 def write_spconfig(package, dirty):
